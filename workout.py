@@ -15,7 +15,7 @@ class Exercise:
 
     def __init__(self, name, equipment, paired=False):
         self.name = name
-        self.paired = paired
+        self.paired = paired == 'paired'
         self.equipment = None if equipment is None or equipment == '' else equipment.lower()
 
 
@@ -41,6 +41,7 @@ def load_exercises(equipment):
             csv_reader = csv.reader(csv_file, delimiter=',')
             for row in csv_reader:
                 ex = Exercise(*row)
+                print(ex.name)
                 if ex.equipment is None or ex.equipment in equipment:
                     exercises.append(ex)
         all_exercises[category] = exercises
@@ -97,27 +98,46 @@ def build_workout_sequence():
     return exercise_sequence
 
 
+def countdown(duration_s):
+    start = time.time()
+    while True:
+        remaining = duration_s - (time.time() - start)
+        print('\rTime remaining {}               '.format(int(remaining)), end='')
+        if remaining < 0:
+            # TODO: async play some sound
+            print('\n\n')
+            break
+
 duration, equipment = get_workout_params()
 all_exercises = load_exercises(equipment)
 
 sequence = build_workout_sequence()
 
+#print full sequence
+for exercise, duration in sequence:
+    print(exercise.name + ('' if not exercise.paired else ' right and left'))
+
+
+input('press any key to begin')
+
 for exercise, duration in sequence:
     print('Exercise: {}'.format(exercise.name))
     print('Duration: {}\n'.format(duration))
     if duration[-1] == 's':
-        duration_s = int(duration[:-1])
-        print(exercise.name)
-        start = time.time()
-        while True:
-            remaining = duration_s - (time.time() - start)
-            print('\rTime remaining {}               '.format(int(remaining)), end='')
-            if remaining < 0:
-                #TODO: async play some sound
-                print('\n\n')
-                break
+        if exercise.paired:
+            duration_s = int(duration[:-1]) // 2
+            print(exercise.name + 'Right side')
+            countdown(duration_s)
+            duration_s = int(duration[:-1]) // 2
+            print(exercise.name + 'Left side')
+            countdown(duration_s)
+        else:
+            duration_s = int(duration[:-1])
+            print(exercise.name)
+            countdown(duration_s)
     else:
         pass
         #TODO: implement number of reps
 
 
+#TODO: things with weights become paired if you only have one weight
