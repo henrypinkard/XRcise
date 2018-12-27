@@ -5,14 +5,15 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from skimage import filters
 
-im = Image.open('/Users/henrypinkard/Desktop/malmo.tif')
+im = Image.open('/Users/henrypinkard/Desktop/malmocrop.tif')
 img = np.asarray(im)
-img = img[:2500, -2500:]
+smoothed = img
 
-smoothed = filters.gaussian(img, sigma=60).astype(np.float)
+smoothed = filters.gaussian(img, sigma=40).astype(np.float)
 plt.figure()
-plt.contour(smoothed, origin='image', colors='k')
+plt.contour(smoothed, origin='image', levels=30)
 plt.show()
 
 plt.figure()
 plt.hist(np.ravel(img), 100)
+pass

@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import time
 import os
+from os import system
 
 POSSIBLE_EQUIPMENT = ['trx', 'weights', 'kettlebells', 'pullupbar']
 FORMATS = ['1-1 strength-cardio', '3x1 strength-cardio', 'Tabata']
@@ -18,7 +19,6 @@ class Exercise:
         self.paired = paired == 'paired'
         self.equipment = None if equipment is None or equipment == '' else equipment.lower()
 
-
 def get_workout_params():
     """
     Prompt user for what equipment they have and what type of workout they want
@@ -30,7 +30,11 @@ def get_workout_params():
     for e in POSSIBLE_EQUIPMENT:
         if input('Do you have {} (y/n)?'.format(e)) == 'y':
             equipment.append(e)
-    return duration, equipment
+    if np.random.rand() < 0.5:
+        voice = 'Allison'
+    else:
+        voice = 'Tom'
+    return duration, equipment, voice
 
 def load_exercises(equipment):
     all_exercises = {}
@@ -41,7 +45,6 @@ def load_exercises(equipment):
             csv_reader = csv.reader(csv_file, delimiter=',')
             for row in csv_reader:
                 ex = Exercise(*row)
-                print(ex.name)
                 if ex.equipment is None or ex.equipment in equipment:
                     exercises.append(ex)
         all_exercises[category] = exercises
@@ -97,18 +100,23 @@ def build_workout_sequence():
     #     #30 reps of each exercise; do full circuit twice
     return exercise_sequence
 
+def speak(text, voice):
+    system('say -v \"{}\" \"{}\"'.format(voice, text))
 
-def countdown(duration_s):
+def countdown(duration_s, voice):
+    count_milestones = [t for t in [30, 10, 5, 4, 3, 2, 1] if t < duration_s]
     start = time.time()
     while True:
         remaining = duration_s - (time.time() - start)
         print('\rTime remaining {}               '.format(int(remaining)), end='')
+        if len(count_milestones) > 0 and count_milestones[0] > remaining:
+            milestone = count_milestones.pop(0)
+            speak(str(milestone), voice)
         if remaining < 0:
-            # TODO: async play some sound
             print('\n\n')
             break
 
-duration, equipment = get_workout_params()
+duration, equipment, voice = get_workout_params()
 all_exercises = load_exercises(equipment)
 
 sequence = build_workout_sequence()
@@ -118,23 +126,26 @@ for exercise, duration in sequence:
     print(exercise.name + ('' if not exercise.paired else ' right and left'))
 
 
-input('press any key to begin')
+input('press enter key to begin')
 
 for exercise, duration in sequence:
     print('Exercise: {}'.format(exercise.name))
     print('Duration: {}\n'.format(duration))
+    speak('Next exercise: {}'.format(exercise.name), voice)
+    speak('For {} seconds'.format(duration), voice)
+
     if duration[-1] == 's':
         if exercise.paired:
             duration_s = int(duration[:-1]) // 2
-            print(exercise.name + 'Right side')
-            countdown(duration_s)
+            print(exercise.name + ' Right side')
+            countdown(duration_s, voice)
             duration_s = int(duration[:-1]) // 2
-            print(exercise.name + 'Left side')
-            countdown(duration_s)
+            print(exercise.name + ' Left side')
+            countdown(duration_s, voice)
         else:
             duration_s = int(duration[:-1])
             print(exercise.name)
-            countdown(duration_s)
+            countdown(duration_s, voice)
     else:
         pass
         #TODO: implement number of reps
