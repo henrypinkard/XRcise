@@ -18,6 +18,7 @@ class Exercise:
         self.name = name
         self.paired = paired == 'paired'
         self.equipment = None if equipment is None or equipment == '' else equipment.lower()
+        self.rounds = 0
 
 def get_workout_params():
     """
@@ -71,10 +72,14 @@ def build_workout_sequence():
     print('Description: ' + FORMAT_DESCRIPTION[format_index] + '\n\n')
     if format_index == 0:
         # 1 min strength 1 min cardio
-        total_rounds = duration // 2
+        total_rounds = duration // 4
         for i in range(total_rounds):
-            exercise_sequence.append((random_exercise(['arms', 'legs', 'core']), '60s'))
-            exercise_sequence.append((random_exercise(['cardio']), '60s'))
+            ex0 = random_exercise(['arms', 'legs', 'core'])
+            ex1 = random_exercise(['arms', 'legs', 'core'])
+            exercise_sequence.append((ex0, '60s'))
+            exercise_sequence.append((ex1, '60s'))
+            exercise_sequence.append((ex0, '60s'))
+            exercise_sequence.append((ex1, '60s'))
     elif format_index == 1:
         # 1 min of 3 types of strength exercises, 1 min cardio
         total_rounds = duration // 4
@@ -116,39 +121,39 @@ def countdown(duration_s, voice):
             print('\n\n')
             break
 
+def execute_exercise(name, duration, voice):
+    print('Exercise: {}'.format(name))
+    print('Duration: {}\n'.format(duration))
+    speak(name, voice)
+    speak('For {} seconds'.format(duration), voice)
+    countdown(duration, voice)
+
+#get user input for type of workout
 duration, equipment, voice = get_workout_params()
+
+#build workout sequence
 all_exercises = load_exercises(equipment)
-
 sequence = build_workout_sequence()
-
 #print full sequence
 for exercise, duration in sequence:
     print(exercise.name + ('' if not exercise.paired else ' right and left'))
 
-
+#begin workout
 input('press enter key to begin')
-
 for exercise, duration in sequence:
-    print('Exercise: {}'.format(exercise.name))
-    print('Duration: {}\n'.format(duration))
-    speak('Next exercise: {}'.format(exercise.name), voice)
-    speak('For {} seconds'.format(duration), voice)
-
     if duration[-1] == 's':
         if exercise.paired:
-            duration_s = int(duration[:-1]) // 2
-            print(exercise.name + ' Right side')
-            countdown(duration_s, voice)
-            duration_s = int(duration[:-1]) // 2
-            print(exercise.name + ' Left side')
-            countdown(duration_s, voice)
+            if exercise.rounds % 2 == 0:
+                name = exercise.name + ' Right side'
+            else:
+                name = exercise.name + ' Left side'
         else:
-            duration_s = int(duration[:-1])
-            print(exercise.name)
-            countdown(duration_s, voice)
+            name = exercise.name
+        duration = int(duration[:-1])
     else:
         pass
         #TODO: implement number of reps
 
+    execute_exercise(name, duration, voice)
 
-#TODO: things with weights become paired if you only have one weight
+    exercise.rounds += 1
