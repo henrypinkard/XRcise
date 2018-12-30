@@ -43,7 +43,7 @@ def get_workout_params():
 
 def load_exercises(equipment):
     all_exercises = []
-    with open('exercises.csv') as csv_file:
+    with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + 'exercises.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         mat = None
         for i, row in enumerate(csv_reader):
