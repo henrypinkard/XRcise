@@ -1,4 +1,4 @@
-,,,cardio,pecs,triceps,delts,biceps,traps,lats,back-core,abs,obliques,glutes,hamstrings,quads,hip abductors,hip flexor,hip adductors,calves
+,,,cardio (1-5),pecs,triceps,delts,biceps,traps,lats,back-core,abs,obliques,glutes,hamstrings,quads,hip abductors,hip flexor,hip adductors,calves
 Pushups,,,3,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0
 TRX pushups,TRX,,3,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0
 TRX Tricep dips,TRX,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -7,9 +7,9 @@ Overhead tricep press TRX,TRX,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
 T-Y-I fly TRX,TRX,,2,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
 Row and overhead press,Weights,,2,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0
 Bent over row,Weights,,1,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0
-pullups,pullupbar,,0,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
-chinups,pullupbar,,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
-chillups,pullupbar,,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
+pullups,pullupbar,,1,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
+chinups,pullupbar,,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
+chillups,pullupbar,,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
 Speed squats,,,5,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
 Fast march in place,,,5,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1
 Mountain climbers,,,5,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0

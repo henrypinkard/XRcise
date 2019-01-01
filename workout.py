@@ -64,23 +64,19 @@ def load_exercises(equipment):
                     all_exercises.append(Exercise(name, paired, cardio_score))
 
     adjacency_mat = np.zeros((mat.shape[1], mat.shape[1]))
-    #extra similiarty for exact same exercise
-
     normed_mat = mat / np.linalg.norm(mat, axis=0)
     for i in range(adjacency_mat.shape[0]):
         for j in range(adjacency_mat.shape[1]):
             adjacency_mat[i, j] = np.dot(normed_mat[:, i], normed_mat[:, j].T)
-    adjacency_mat[np.diag_indices(mat.shape[1])] += 1
-    #normalize
-    adjacency_mat = adjacency_mat / np.max(np.ravel(adjacency_mat))
+    #extra similiarty for exact same exercise so it becomes unlikely to be repeated
+    adjacency_mat[np.diag_indices(mat.shape[1])] += 1.5
     return all_exercises, adjacency_mat, muscle_group_categories
 
-def sample_exercises(cardio_categories, all_exercises, adjacency_mat, theta=0.0000001, memory=0.4, verbose=False):
+def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=False):
     exercises = []
-    similarity_vec = np.ones(len(all_exercises))
+    dissimilarity_vec = np.ones(len(all_exercises))
     ex_index = -1
     for i, cardio_classes in enumerate(cardio_categories):
-        dissimilarity_vec = 1 / (theta + similarity_vec)
         norm_probs = dissimilarity_vec / np.sum(dissimilarity_vec)
         if verbose:
             print('Currrent exercise: {}\n'.format(all_exercises[ex_index].name) if ex_index != -1 else 'None')
@@ -93,13 +89,7 @@ def sample_exercises(cardio_categories, all_exercises, adjacency_mat, theta=0.00
         while all_exercises[ex_index].cardio_score not in cardio_classes:
             ex_index = np.nonzero(np.random.multinomial(1, norm_probs))[0][0] #resample until you get a valid one
         exercises.append(all_exercises[ex_index])
-        # increase distance to exercise just picked and retain memory of which have been done
-        if i == 0:
-            similarity_vec = adjacency_mat[ex_index, :]
-        else:
-            memory_term = memory * similarity_vec
-            new_term = (1 - memory) * adjacency_mat[ex_index, :]
-            similarity_vec = memory_term + new_term
+        dissimilarity_vec *= np.exp(-adjacency_mat[ex_index, :])
     return exercises
 
 def build_workout_sequence(duration, equipment):
@@ -119,10 +109,14 @@ def build_workout_sequence(duration, equipment):
             exercise_sequence.append((ex_list[0], '60s'))
             exercise_sequence.append((ex_list[1], '60s'))
     elif format_index == 1:
-        # 1 min of 3 types of strength exercises, 1 min cardio
-        total_rounds = duration // 4
+        # 2x 1 min of 3 types of strength exercises, 1 min cardio
+        total_rounds = duration // 8
         ex_list = sample_exercises([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [4, 5]], all_exercises, adjacency_mat)
         for i in range(total_rounds):
+            exercise_sequence.append((ex_list[0], '60s'))
+            exercise_sequence.append((ex_list[1], '60s'))
+            exercise_sequence.append((ex_list[2], '60s'))
+            exercise_sequence.append((ex_list[3], '60s'))
             exercise_sequence.append((ex_list[0], '60s'))
             exercise_sequence.append((ex_list[1], '60s'))
             exercise_sequence.append((ex_list[2], '60s'))
