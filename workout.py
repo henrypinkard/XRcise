@@ -69,10 +69,10 @@ def load_exercises(equipment):
         for j in range(adjacency_mat.shape[1]):
             adjacency_mat[i, j] = np.dot(normed_mat[:, i], normed_mat[:, j].T)
     #extra similiarty for exact same exercise so it becomes unlikely to be repeated
-    adjacency_mat[np.diag_indices(mat.shape[1])] += 1.5
+    adjacency_mat[np.diag_indices(mat.shape[1])] += 2
     return all_exercises, adjacency_mat, muscle_group_categories
 
-def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=False):
+def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=True):
     exercises = []
     dissimilarity_vec = np.ones(len(all_exercises))
     ex_index = -1
@@ -111,16 +111,16 @@ def build_workout_sequence(duration, equipment):
     elif format_index == 1:
         # 2x 1 min of 3 types of strength exercises, 1 min cardio
         total_rounds = duration // 8
-        ex_list = sample_exercises([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [4, 5]], all_exercises, adjacency_mat)
+        ex_list = sample_exercises(total_rounds*[[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [4, 5]], all_exercises, adjacency_mat)
         for i in range(total_rounds):
-            exercise_sequence.append((ex_list[0], '60s'))
-            exercise_sequence.append((ex_list[1], '60s'))
-            exercise_sequence.append((ex_list[2], '60s'))
-            exercise_sequence.append((ex_list[3], '60s'))
-            exercise_sequence.append((ex_list[0], '60s'))
-            exercise_sequence.append((ex_list[1], '60s'))
-            exercise_sequence.append((ex_list[2], '60s'))
-            exercise_sequence.append((ex_list[3], '60s'))
+            exercise_sequence.append((ex_list[4*i + 0], '60s'))
+            exercise_sequence.append((ex_list[4*i + 1], '60s'))
+            exercise_sequence.append((ex_list[4*i + 2], '60s'))
+            exercise_sequence.append((ex_list[4*i + 3], '60s'))
+            exercise_sequence.append((ex_list[4*i + 0], '60s'))
+            exercise_sequence.append((ex_list[4*i + 1], '60s'))
+            exercise_sequence.append((ex_list[4*i + 2], '60s'))
+            exercise_sequence.append((ex_list[4*i + 3], '60s'))
     elif format_index == 2:
         # 20 seconds on, 10 seconds rest x 8 for one strength exercise, 1 min crdio'
         total_rounds = duration // 5
@@ -186,8 +186,8 @@ for exercise, duration in sequence:
     print(exercise.name + ('' if not exercise.paired else ' right and left'))
 
 #begin workout
-input('Press enter key to begin')
 speak('Press enter key to begin', voice)
+input('Press enter key to begin')
 for exercise, duration in sequence:
     if duration[-1] == 's':
         if exercise.paired:

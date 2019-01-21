@@ -21,10 +21,10 @@ Plank,,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
 Plank with shoulder taps,,,3,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
 Plank with up up down down,,,3,1,1,1,0,0,1,0,1,1,0,0,0,0,0,0,0
 Elbow plank -- body saw,,,3,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0
-Side plank,,paired,2,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0
-Side plank with hip dips,,paired,2,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0
-Side plank with crunch then toe tap,,paired,2,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0
-Plank with leg raise,,paired,2,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0
+Side plank,,paired,2,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0
+Side plank with hip dips,,paired,2,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0
+Side plank with crunch then toe tap,,paired,2,0,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0
+Plank with leg raise,,paired,2,1,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0
 TRX plank,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
 TRK plank crunches,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
 TRX pikes,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
@@ -56,3 +56,8 @@ Side lunge on towel,,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0
 Kettlebell swings,kettlebell,,4,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0
 TRX hip press,TRX,,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
 TRX hip abduction,TRX,,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0
+Backbend,,,2,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0
+calf raise,,paired,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+Backbend with leg raised,,paired,2,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,0
+Backbend with arm raised,,paired,2,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,0
+All fours side knee raise,,,2,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0,0
