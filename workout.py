@@ -250,13 +250,13 @@ speak('Press enter key to begin', voice)
 input('Press enter key to begin')
 for exercise, duration in sequence:
     if duration[-1] == 's':
-        if exercise.paired:
+        if exercise['paired']:
             if exercise['count'] % 2 == 0:
-                name = exercise.name + ' Right side'
+                name = exercise['name'] + ' Right side'
             else:
-                name = exercise.name + ' Left side'
+                name = exercise['name'] + ' Left side'
         else:
-            name = exercise.name
+            name = exercise['name']
         duration = int(duration[:-1])
     else:
         pass
