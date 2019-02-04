@@ -19,7 +19,7 @@ INSPIRATIONAL_QUOTES = ['Today\'s workout ends with an inspirational quote. Mike
                         'Remember, haters are just fans in denial']
 
 
-def get_workout_params():
+def get_workout_params(verbose=True):
     """
     Prompt user for what equipment they have and what type of workout they want
     """
@@ -45,6 +45,8 @@ def get_workout_params():
         warmup = input('Do you want to warm up (y/n)?') == 'y'
         params['warmup'] = warmup
         save_workout_params(params)
+    if verbose:
+        print('finished getting workout')
     return duration, params
 
 def base_dir():
@@ -104,9 +106,11 @@ def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=Fa
         dissimilarity_vec *= np.exp(-adjacency_mat[ex_index, :])
     return exercises
 
-def build_workout_sequence(duration, params):
+def build_workout_sequence(duration, params, verbose=True):
     # load exercises given equipment available and their distance similarity matrix
     all_exercises, adjacency_mat, muscle_group_categories = load_exercises(params['equipment'])
+    if verbose:
+        print('loaded exercises')
     # determine workout format
     format_index = np.random.randint(3)
     exercise_sequence = []
@@ -146,6 +150,8 @@ def build_workout_sequence(duration, params):
             exercise_sequence.append((ex_list[2*i + 1], '60s'))
     # elif format_index == 3:
     #     #30 reps of each exercise; do full circuit twice
+    if verbose:
+        print('sequence generated')
     return exercise_sequence
 
 def speak(text, voice):
