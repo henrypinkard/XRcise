@@ -64,15 +64,16 @@ def load_exercises(equipment):
                 name = row[0]
                 equipment_needed = row[1]
                 paired = row[2]
-                cardio_score = int(row[3])
-                muscle_groups_binary = np.array([float(f) for f in row[4:]])
+                pyramidable = int(row[3]) == 1
+                cardio_score = int(row[4])
+                muscle_groups_binary = np.array([float(f) for f in row[5:]])
                 if equipment_needed is None or equipment_needed == '' or \
                         equipment_needed == [] or equipment_needed.lower() in equipment:
                     if mat is None:
                         mat = np.reshape(muscle_groups_binary, [-1, 1])
                     else:
                         mat = np.concatenate([mat, np.reshape(muscle_groups_binary, [-1, 1])], axis=1)
-                    all_exercises.append(make_exercise(name, paired, cardio_score))
+                    all_exercises.append(make_exercise(name, paired, cardio_score, pyramidable=pyramidable))
 
     adjacency_mat = np.zeros((mat.shape[1], mat.shape[1]))
     normed_mat = mat / np.linalg.norm(mat, axis=0)
@@ -83,8 +84,8 @@ def load_exercises(equipment):
     adjacency_mat[np.diag_indices(mat.shape[1])] += 4
     return all_exercises, adjacency_mat, muscle_group_categories
 
-def make_exercise(name, paired='', cardio=False):
-    return {'name': name, 'paired': paired == 'paired', 'cardio': cardio, 'count': 0}
+def make_exercise(name, paired='', cardio=False, pyramidable=False):
+    return {'name': name, 'paired': paired == 'paired', 'cardio': cardio, 'count': 0, 'pyramidable': False}
 
 def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=False):
     exercises = []
