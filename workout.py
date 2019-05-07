@@ -19,7 +19,7 @@ INSPIRATIONAL_QUOTES = ['Today\'s workout ends with an inspirational quote. Mike
                         'Remember, haters are just fans in denial']
 
 
-def get_workout_params(verbose=True):
+def get_workout_params():
     """
     Prompt user for what equipment they have and what type of workout they want
     """
@@ -45,8 +45,6 @@ def get_workout_params(verbose=True):
         warmup = input('Do you want to warm up (y/n)?') == 'y'
         params['warmup'] = warmup
         save_workout_params(params)
-    if verbose:
-        print('finished getting workout')
     return duration, params
 
 def base_dir():
@@ -64,8 +62,7 @@ def load_exercises(equipment):
                 name = row[0]
                 equipment_needed = row[1]
                 paired = row[2]
-                pyramidable = int(row[3]) == 1
-                cardio_score = int(row[4])
+                cardio_score = int(row[3])
                 muscle_groups_binary = np.array([float(f) for f in row[5:]])
                 if equipment_needed is None or equipment_needed == '' or \
                         equipment_needed == [] or equipment_needed.lower() in equipment:
@@ -73,7 +70,7 @@ def load_exercises(equipment):
                         mat = np.reshape(muscle_groups_binary, [-1, 1])
                     else:
                         mat = np.concatenate([mat, np.reshape(muscle_groups_binary, [-1, 1])], axis=1)
-                    all_exercises.append(make_exercise(name, paired, cardio_score, pyramidable=pyramidable))
+                    all_exercises.append(make_exercise(name, paired, cardio_score))
 
     adjacency_mat = np.zeros((mat.shape[1], mat.shape[1]))
     normed_mat = mat / np.linalg.norm(mat, axis=0)
@@ -84,8 +81,8 @@ def load_exercises(equipment):
     adjacency_mat[np.diag_indices(mat.shape[1])] += 4
     return all_exercises, adjacency_mat, muscle_group_categories
 
-def make_exercise(name, paired='', cardio=False, pyramidable=False):
-    return {'name': name, 'paired': paired == 'paired', 'cardio': cardio, 'count': 0, 'pyramidable': False}
+def make_exercise(name, paired='', cardio=False):
+    return {'name': name, 'paired': paired == 'paired', 'cardio': cardio, 'count': 0}
 
 def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=False):
     exercises = []
@@ -107,11 +104,45 @@ def sample_exercises(cardio_categories, all_exercises, adjacency_mat, verbose=Fa
         dissimilarity_vec *= np.exp(-adjacency_mat[ex_index, :])
     return exercises
 
-def build_workout_sequence(duration, params, verbose=True):
-    # load exercises given equipment available and their distance similarity matrix
-    all_exercises, adjacency_mat, muscle_group_categories = load_exercises(params['equipment'])
-    if verbose:
-        print('loaded exercises')
+def filter_by_exclusion_list(all_exercises, adjacency_mat):
+    include_lists = load_inclusion_lists()
+    include_list_prompt = 'Select exercise include list: \n1) All exercises\n2) New include list\n'
+    for i, include_list_name in enumerate(include_lists.keys()):
+        include_list_prompt += '{}) {}'.format(3 + i, include_list_name)
+    selection = input(include_list_prompt)
+    if selection == '1':
+        #nothing to filter because using all
+        return all_exercises, adjacency_mat
+    elif selection == '2':
+        name, include_list = launch_include_list_editor(all_exercises)
+        include_lists[name] = include_list
+        save_inclusion_lists(include_lists)
+    else:
+        index = int(selection) - 3
+        name = list(include_lists.keys())[index]
+        include_list = include_lists[name]
+    #filter by included exercises
+    valid_indices = []
+    for included in include_list:
+        for i, exercise in enumerate(all_exercises):
+            if exercise['name'] == included:
+                valid_indices.append(i)
+    valid_indices = np.array(valid_indices)
+    filtered_all_exercises = [all_exercises[index] for index in valid_indices]
+    filtered_adjacency_mat = adjacency_mat[valid_indices, :][:, valid_indices]
+    return filtered_all_exercises, filtered_adjacency_mat
+
+def launch_include_list_editor(all_exercises):
+    inclusion_list = []
+    name = input('Name for this list of exercises')
+    print('Type \'y\' to include')
+    for exercise in all_exercises:
+        y = input('Include {}?'.format(exercise['name']))
+        if y == 'y':
+            inclusion_list.append(exercise['name'])
+    return name, inclusion_list
+
+def build_workout_sequence(duration, params, all_exercises, adjacency_mat):
     # determine workout format
     format_index = np.random.randint(3)
     exercise_sequence = []
@@ -151,8 +182,6 @@ def build_workout_sequence(duration, params, verbose=True):
             exercise_sequence.append((ex_list[2*i + 1], '60s'))
     # elif format_index == 3:
     #     #30 reps of each exercise; do full circuit twice
-    if verbose:
-        print('sequence generated')
     return exercise_sequence
 
 def speak(text, voice):
@@ -192,6 +221,19 @@ def execute_exercise(name, duration, voice):
     speak(name, voice)
     speak('For {} seconds'.format(duration), voice)
     countdown(duration, voice)
+
+def save_inclusion_lists(inclusion_lists):
+    file = open(base_dir() + 'inclusion_lists', 'wb')
+    pickle.dump(inclusion_lists, file)
+    file.close()
+
+def load_inclusion_lists():
+    if ('inclusion_lists' not in os.listdir(base_dir())):
+        return {} #not yet created
+    file = open(base_dir() + 'inclusion_lists', 'rb')
+    inclusion_lists = pickle.load(file)
+    file.close()
+    return inclusion_lists
 
 def save_workout(sequence, name):
     file = open(base_dir() + 'favorite_workouts{}{}'.format(os.sep, name), 'wb')
@@ -246,7 +288,10 @@ sequence = prompt_for_loaded_workout()
 if sequence is None:
     #generate a new one
     duration, params = get_workout_params()
-    sequence = build_workout_sequence(duration, params)
+    # load exercises given equipment available and their distance similarity matrix
+    all_exercises, adjacency_mat, muscle_group_categories = load_exercises(params['equipment'])
+    all_exercises, adjacency_mat = filter_by_exclusion_list(all_exercises, adjacency_mat)
+    sequence = build_workout_sequence(duration, params, all_exercises, adjacency_mat)
 
 #print full sequence
 for exercise, duration in sequence:
