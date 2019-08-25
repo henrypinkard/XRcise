@@ -44,7 +44,7 @@ from execution import ExecutionEngine
 # sequence = prompt_for_loaded_workout()
 
 
-profile, all_exercises, adjacency_mat = get_profile()
+profile, exercise_bank = get_profile()
 duration = int(input('Enter workout duration (min):'))
-ExecutionEngine(all_exercises, adjacency_mat, profile, duration)
+ExecutionEngine(exercise_bank, profile, duration)
 

@@ -1,75 +1,63 @@
-,equipment,paired?,cardio (1-5),pecs,triceps,delts,biceps,traps,lats,back-core,abs,obliques,glutes,hamstrings,quads,hip abductors,hip flexor,hip adductors,calves
-Pushups,,,3,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0
-TRX pushups,TRX,,3,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0
-TRX Tricep dips,TRX,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-Overhead tricep press,Weights,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-Overhead tricep press TRX,TRX,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-T-Y-I fly TRX,TRX,,2,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
-Row and overhead press,Weights,,2,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0
-Bent over row,Weights,,1,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0
+,variations,paired?,cardio (1-5),pecs,triceps,delts,biceps,traps,lats,back-core,abs,obliques,glutes,hamstrings,quads,hip abductors,hip flexor,hip adductors,calves
+Pushups,"bodyweight,trx",,3,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0
+Tricep dips,trx,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Overhead tricep press,"weights, trx",,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+T-Y-I fly,trx,,2,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
+Row and overhead press,"weights, kettlebell",,2,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0
+Bent over row,"weights, kettlebell",,1,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0
 pullups,pullupbar,,1,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
 chinups,pullupbar,,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
 chillups,pullupbar,,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
-Speed squats,,,5,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-TRX mountain climbers,TRX,,5,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
-Mountain climbers,,,5,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
-TRX plank jacks,TRX,,5,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0
-Plank jacks/step outs,,,5,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0
-Burpees,,,5,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0
-Skaters,,,5,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
-Reverse lunge with kicks,,,4,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,0
-Plank,,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-Plank with shoulder taps,,,3,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
-Plank with up up down down,,,3,1,1,1,0,0,1,0,1,1,0,0,0,0,0,0,0
-TRX body saw,TRX,,3,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0
-Elbow plank -- body saw,,,3,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0
-Side plank,,paired,2,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0
-Side plank with hip dips,,paired,2,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0
-Side plank with crunch then toe tap,,paired,2,0,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0
-Plank with leg raise,,paired,2,1,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0
-TRX plank,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-TRK plank crunches,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-TRX pikes,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-TRX plank pike crunch,TRX,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-TRX side plank,TRX,paired,2,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0
-Russian twist,Weights,,3,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,0
-Leg raises,,,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0
-Bicycle crunches,,,3,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0
-Flutter kick,,,2,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0
-Kettlebell side swings,kettlebell,,3,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0
+Speed squats,bodyweight,,5,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+mountain climbers,"bodyweight,trx",,5,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
+Plank jacks/step outs,"bodyweight,trx",,5,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0
+Burpees,bodyweight,,5,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+Skaters,bodyweight,,5,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+Reverse lunge with kicks,bodyweight,,4,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,0
+Plank,"bodyweight,trx",,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
+Plank with shoulder taps,bodyweight,,3,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
+Plank with up up down down,bodyweight,,3,1,1,1,0,0,1,0,1,1,0,0,0,0,0,0,0
+Elbow plank -- body saw,"bodyweight,trx",,3,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0
+Side plank,"bodyweight,trx",paired,2,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0
+Side plank with hip dips,"bodyweight,trx",paired,2,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0
+Side plank with crunch then toe tap,"bodyweight,trx",paired,2,0,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0
+Side plank with crunch,"bodyweight,trx",paired,2,0,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0
+Plank with leg raise,bodyweight,paired,2,1,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0
+Pllank crunches,"trx, towel",,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
+pikes,"trx,towel",,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
+plank pike crunch,"trx,towel",,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
+Russian twist,"bodyweight, weights",,3,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,0
+Leg raises,bodyweight,,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0
+Bicycle crunches,bodyweight,,3,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0
+Flutter kick,bodyweight,,2,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0
+Side swings,kettlebell,,3,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0
 Hanging leg raise,pullupbar,,2,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,0
-Squats,,,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-Squats with overhead press,Weights,,2,0,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0
-Squat pulses,,,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-Wall sit,,,3,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0
-Reverse lunge,,paired ,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-Curtsy lunge,,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
-Reverse lunge TRX,TRX,paired,3,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
-Curtsy lunge TRX,TRX,paired,3,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
-One leg squat TRX,TRX,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
-Lunge pulses,,paired,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-One leg bridge lifts,,paired,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
-Hamstring curls TRX,TRX,,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
-Reverse lunge with bicep curl,Weights,paired,1,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0
-One leg RDL,Weights,paired,1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0
-TRX side lunge,TRX,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0
-Side lunge on towel,,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0
-Kettlebell swings,kettlebell,,4,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0
-TRX hip press,TRX,,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
-TRX hip abduction,TRX,,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0
-Backbend,,,2,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0
-calf raise,,paired,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
-Backbend with leg raised,,paired,2,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,0
-Backbend with arm raised,,paired,2,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,0
-All fours side knee raise,,,2,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0,0
-Everest climbers ,,,5,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-Break dancers,,,4,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-All fours leg lift,,paired,2,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0
-"Knee to elbow, nose, opposite elbow",,paired,3,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
-Sumo squats,,,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-Plank rows,Weights,,3,1,1,1,0,0,1,1,1,0,0,0,0,0,1,0,0
-Superman,,,2,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
-Lower body Russian twist,,,2,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0
-Pike (on towel),,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-Knee tucks (on towel),,,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
-One leg squat,,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+Squats,"bodyweight, weights",,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+Squats with overhead press,weights,,2,0,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0
+Squat pulses,bodyweight,,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+Wall sit,bodyweight,,3,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0
+Reverse lunge,"bodyweight, weights, trx",paired ,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+Curtsy lunge,"bodyweight, weights,trx",paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+One leg squat,trx,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+Lunge pulses,"bodyweight, weights, trx",paired,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+One leg bridge lifts,"bodyweight, weights",paired,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
+Hamstring curls,trx,,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
+Reverse lunge with bicep curl,weights,paired,1,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0
+One leg RDL,"bodyweight, weights",paired,1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0
+Side lunge,"trx, towel",paired,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0
+swings,kettlebell,,4,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0
+Hip press,trx,,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
+Hip abduction,trx,,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0
+Backbend,bodyweight,,2,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0
+calf raise,bodyweight,paired,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+Backbend with leg raised,bodyweight,paired,2,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,0
+Backbend with arm raised,bodyweight,paired,2,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,0
+All fours side knee raise,"bodyweight,band",,2,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0,0
+Everest climbers ,bodyweight,,5,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
+Break dancers,bodyweight,,4,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0
+All fours leg lift,"bodyweight,band",paired,2,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0
+"Plank knee to elbow, nose, opposite elbow","bodyweight,trx",paired,3,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0
+Sumo squats,"bodyweight, weights",,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+Plank rows,weights,,3,1,1,1,0,0,1,1,1,0,0,0,0,0,1,0,0
+Superman,bodyweight,,2,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
+Lower body Russian twist,bodyweight,,2,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0

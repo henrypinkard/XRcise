@@ -8,6 +8,7 @@ import select
 import pickle
 import matplotlib.pyplot as plt
 from creation import get_profile
+from exercise import Exercise
 
 INSPIRATIONAL_QUOTES = ['Today\'s workout ends with an inspirational quote. Mike Tyson once said, I ain\'t the same '
                         'person I was when I bit that guy\'s ear off',
@@ -18,12 +19,10 @@ INSPIRATIONAL_QUOTES = ['Today\'s workout ends with an inspirational quote. Mike
                         'Remember, haters are just fans in denial']
 
 
-
 class ExecutionEngine:
 
-    def __init__(self, all_exercises, adjacency_mat, profile, duration):
-        self.all_exercises = all_exercises
-        self.adjacency_mat = adjacency_mat
+    def __init__(self, exercise_bank, profile, duration):
+        self.exercise_bank = exercise_bank
         self.profile = profile
 
         if np.random.rand() < 0.5:
@@ -35,27 +34,27 @@ class ExecutionEngine:
 
         # print full sequence
         for exercise, duration in sequence:
-            print(exercise['name'] + ('' if not exercise['paired'] else ' right and left'))
+            print(exercise.get_name(profile['equipment']) + ('' if not exercise.paired else ' right and left'))
 
         # begin workout
         self.speak('Press enter key to begin')
         input('Press enter key to begin')
         for exercise, duration in sequence:
             if duration[-1] == 's':
-                if exercise['paired']:
-                    if exercise['count'] % 2 == 0:
-                        name = exercise['name'] + ' Right side'
+                if exercise.paired:
+                    if exercise.count % 2 == 0:
+                        name = exercise.get_name(profile['equipment']) + ' Right side'
                     else:
-                        name = exercise['name'] + ' Left side'
+                        name = exercise.get_name(profile['equipment']) + ' Left side'
                 else:
-                    name = exercise['name']
+                    name = exercise.get_name(profile['equipment'])
                 duration = int(duration[:-1])
             else:
                 pass
                 # TODO: implement number of reps
 
             self.execute_exercise(name, duration)
-            exercise['count'] = exercise['count'] + 1
+            exercise.count = exercise.count + 1
 
         self.speak('Workout complete')
         self.speak(INSPIRATIONAL_QUOTES[np.random.randint(len(INSPIRATIONAL_QUOTES))])
@@ -103,30 +102,30 @@ class ExecutionEngine:
         self.countdown(duration)
 
     def make_exercise(self, name, paired='', cardio=False):
-        return {'name': name, 'paired': paired == 'paired', 'cardio': cardio, 'count': 0}
+        return Exercise(name, paired=paired, cardio=cardio)
 
     def sample_exercises(self, cardio_categories, verbose=False):
         exercises = []
-        dissimilarity_vec = np.ones(len(self.all_exercises))
+        dissimilarity_vec = np.ones(self.exercise_bank.get_num_valid_exercises())
         ex_index = -1
         for i, cardio_classes in enumerate(cardio_categories):
             norm_probs = dissimilarity_vec / np.sum(dissimilarity_vec)
-            if verbose:
-                print('Currrent exercise: {}\n'.format(self.all_exercises[ex_index]['name']) if ex_index != -1 else 'None')
-                sort_ind = np.argsort(norm_probs)
-                for i in sort_ind:
-                    print('{}: {:.3f}'.format(self.all_exercises[i]['name'], norm_probs[i]))
-                print('\n\n\n')
+            # if verbose:
+            #     print('Currrent exercise: {}\n'.format(self.all_exercises[ex_index].name) if ex_index != -1 else 'None')
+            #     sort_ind = np.argsort(norm_probs)
+            #     for i in sort_ind:
+            #         print('{}: {:.3f}'.format(self.all_exercises[i].name, norm_probs[i]))
+            #     print('\n\n\n')
 
             ex_index = np.nonzero(np.random.multinomial(1, norm_probs))[0][0]
             attempts = 0
-            while self.all_exercises[ex_index]['cardio'] not in cardio_classes:
+            while self.exercise_bank.get_exercise(ex_index).cardio not in cardio_classes:
                 ex_index = np.nonzero(np.random.multinomial(1, norm_probs))[0][0]  # resample until you get a valid one
                 if attempts == 100:
                     break #no valid ones are likely
                 attempts += 1
-            exercises.append(self.all_exercises[ex_index])
-            dissimilarity_vec *= np.exp(-self.adjacency_mat[ex_index, :])
+            exercises.append(self.exercise_bank.get_exercise(ex_index))
+            dissimilarity_vec *= np.exp(-self.exercise_bank._adjacency_mat[ex_index, :])
         return exercises
 
     def build_workout_sequence(self, duration):
