@@ -21,7 +21,7 @@ INSPIRATIONAL_QUOTES = ['Today\'s workout ends with an inspirational quote. Mike
 
 class ExecutionEngine:
 
-    def __init__(self, exercise_bank, profile, duration):
+    def __init__(self, exercise_bank, profile, duration, workout_type):
         self.exercise_bank = exercise_bank
         self.profile = profile
 
@@ -30,31 +30,54 @@ class ExecutionEngine:
         else:
             self.voice = 'Tom'
 
-        sequence = self.build_workout_sequence(duration)
+        sequence = self.build_workout_sequence(duration, workout_type)
 
         # print full sequence
         for exercise, duration in sequence:
-            print(exercise.get_name(profile['equipment']) + ('' if not exercise.paired else ' right and left'))
+            if type(exercise) == tuple:
+                print(exercise[0].get_name(profile['equipment']) + ('' if not exercise[0].paired else ' right and left'))
+            else:
+                print(exercise.get_name(profile['equipment']) + ('' if not exercise.paired else ' right and left'))
 
         # begin workout
         self.speak('Press enter key to begin')
         input('Press enter key to begin')
         for exercise, duration in sequence:
-            if duration[-1] == 's':
-                if exercise.paired:
-                    if exercise.count % 2 == 0:
-                        name = exercise.get_name(profile['equipment']) + ' Right side'
+            if type(exercise) == tuple:
+                exercise1, exercise2 = exercise
+                if duration[-1] == 's':
+                    if exercise1.paired:
+                        name1 = exercise1.get_name(profile['equipment']) + (' Right side' if
+                                                            exercise.count % 2 == 0 else ' Left side')
+                        name2 = exercise2.get_name(profile['equipment']) + (' Right side' if
+                                                                            exercise.count % 2 == 0 else ' Left side')
                     else:
-                        name = exercise.get_name(profile['equipment']) + ' Left side'
+                        name1 = exercise1.get_name(profile['equipment'])
+                        name2 = exercise2.get_name(profile['equipment'])
+                    duration = int(duration[:-1])
                 else:
-                    name = exercise.get_name(profile['equipment'])
-                duration = int(duration[:-1])
-            else:
-                pass
-                # TODO: implement number of reps
+                    pass
+                    # TODO: implement number of reps?
 
-            self.execute_exercise(name, duration)
-            exercise.count = exercise.count + 1
+                fullname = 'Human1: ' + name1 + '\nHuman2: ' + name2
+                self.execute_exercise(fullname, duration)
+                exercise1.count = exercise1.count + 1 #only keep count for one in pair
+            else:
+                if duration[-1] == 's':
+                    if exercise.paired:
+                        if exercise.count % 2 == 0:
+                            name = exercise.get_name(profile['equipment']) + ' Right side'
+                        else:
+                            name = exercise.get_name(profile['equipment']) + ' Left side'
+                    else:
+                        name = exercise.get_name(profile['equipment'])
+                    duration = int(duration[:-1])
+                else:
+                    pass
+                    # TODO: implement number of reps?
+
+                self.execute_exercise(name, duration)
+                exercise.count = exercise.count + 1
 
         self.speak('Workout complete')
         self.speak(INSPIRATIONAL_QUOTES[np.random.randint(len(INSPIRATIONAL_QUOTES))])
@@ -95,7 +118,7 @@ class ExecutionEngine:
                     break
 
     def execute_exercise(self, name, duration):
-        print('Exercise: {}'.format(name))
+        print(name)
         print('Duration: {}\n'.format(duration))
         self.speak(name)
         self.speak('For {} seconds'.format(duration))
@@ -128,14 +151,15 @@ class ExecutionEngine:
             dissimilarity_vec *= np.exp(-self.exercise_bank._adjacency_mat[ex_index, :])
         return exercises
 
-    def build_workout_sequence(self, duration):
+    def build_workout_sequence(self, duration, workout_type=-1):
         # determine workout format
-        format_index = np.random.randint(3)
+        if workout_type == -1:
+            workout_type = np.random.randint(3)
         exercise_sequence = []
         if self.profile['warmup']:
             duration -= 2
             exercise_sequence.append((self.make_exercise('Warmup'), '120s'))
-        if format_index == 0:
+        if workout_type == 0:
             #### 1 min strength 1 min cardio #####
             total_rounds = duration // 4
             ex_list = self.sample_exercises(total_rounds * [[1, 2, 3, 4], [4, 5]])
@@ -144,7 +168,7 @@ class ExecutionEngine:
                 exercise_sequence.append((ex_list[2 * i + 1], '60s'))
                 exercise_sequence.append((ex_list[2 * i + 0], '60s'))
                 exercise_sequence.append((ex_list[2 * i + 1], '60s'))
-        elif format_index == 1:
+        elif workout_type == 1:
             # 2x 1 min of 3 types of strength exercises, 1 min cardio
             total_rounds = duration // 8
             ex_list = self.sample_exercises(total_rounds * [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [4, 5]])
@@ -157,7 +181,7 @@ class ExecutionEngine:
                 exercise_sequence.append((ex_list[4 * i + 1], '60s'))
                 exercise_sequence.append((ex_list[4 * i + 2], '60s'))
                 exercise_sequence.append((ex_list[4 * i + 3], '60s'))
-        elif format_index == 2:
+        elif workout_type == 2:
             # 20 seconds on, 10 seconds rest x 8 for one strength exercise, 1 min crdio'
             total_rounds = duration // 5
             ex_list = self.sample_exercises([[1, 2, 3, 4], [4, 5]] * total_rounds)
@@ -166,6 +190,23 @@ class ExecutionEngine:
                     exercise_sequence.append((ex_list[2 * i], '20s'))
                     exercise_sequence.append((self.make_exercise('Rest'), '10s'))
                 exercise_sequence.append((ex_list[2 * i + 1], '60s'))
-        # elif format_index == 3:
+        elif workout_type == 3:
+            total_rounds = int(np.floor(duration / 3))
+            #TODO: account for limited equipment
+            ex_list = self.sample_exercises([[1, 2, 3, 4, 5]] * total_rounds * 4)
+            for i in range(total_rounds):
+                ex0 = ex_list[i]
+                ex1 = ex_list[i + 1]
+                ex2 = ex_list[i + 2]
+                ex3 = ex_list[i + 3]
+                exercise_sequence.append(((ex0, ex1), '40s'))
+                exercise_sequence.append(((ex1, ex0), '40s'))
+                exercise_sequence.append(((self.make_exercise('Rest'), self.make_exercise('Rest')), '20s'))
+                exercise_sequence.append(((ex2, ex3), '40s'))
+                exercise_sequence.append(((ex3, ex2), '40s'))
+                exercise_sequence.append(((self.make_exercise('Rest'), self.make_exercise('Rest')), '20s'))
+
+
+
         #     #30 reps of each exercise; do full circuit twice
         return exercise_sequence

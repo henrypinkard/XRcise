@@ -9,6 +9,7 @@ import pickle
 import matplotlib.pyplot as plt
 from creation import get_profile
 from execution import ExecutionEngine
+import argparse
 
 
 # def save_workout(sequence, name):
@@ -44,7 +45,13 @@ from execution import ExecutionEngine
 # sequence = prompt_for_loaded_workout()
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--workout_type', type=int, default=-1)
+args = parser.parse_args()
+
+
+
 profile, exercise_bank = get_profile()
 duration = int(input('Enter workout duration (min):'))
-ExecutionEngine(exercise_bank, profile, duration)
+ExecutionEngine(exercise_bank, profile, duration, args.workout_type)
 
