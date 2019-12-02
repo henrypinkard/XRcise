@@ -25,12 +25,12 @@ class ExecutionEngine:
         self.exercise_bank = exercise_bank
         self.profile = profile
 
-        if np.random.rand() < 0.5:
-            self.voice = 'Allison'
-        else:
-            self.voice = 'Tom'
+        # if np.random.rand() < 0.5:
+        self.voice = 'Allison'
+        # else:
+        #     self.voice = 'Tom'
 
-        sequence = self.build_workout_sequence(duration, workout_type)
+        sequence = self.build_workout_sequence(duration, workout_type, profile)
 
         # print full sequence
         for exercise, duration in sequence:
@@ -43,14 +43,14 @@ class ExecutionEngine:
         self.speak('Press enter key to begin')
         input('Press enter key to begin')
         for exercise, duration in sequence:
-            if type(exercise) == tuple:
+            if type(exercise) == tuple: #partner workout
                 exercise1, exercise2 = exercise
                 if duration[-1] == 's':
                     if exercise1.paired:
                         name1 = exercise1.get_name(profile['equipment']) + (' Right side' if
-                                                            exercise.count % 2 == 0 else ' Left side')
+                                                                            exercise1.count % 2 == 0 else ' Left side')
                         name2 = exercise2.get_name(profile['equipment']) + (' Right side' if
-                                                                            exercise.count % 2 == 0 else ' Left side')
+                                                                            exercise1.count % 2 == 0 else ' Left side')
                     else:
                         name1 = exercise1.get_name(profile['equipment'])
                         name2 = exercise2.get_name(profile['equipment'])
@@ -127,10 +127,11 @@ class ExecutionEngine:
     def make_exercise(self, name, paired='', cardio=False):
         return Exercise(name, paired=paired, cardio=cardio)
 
-    def sample_exercises(self, cardio_categories, verbose=False):
+    def sample_exercises(self, cardio_categories, profile,  verbose=False):
         exercises = []
         dissimilarity_vec = np.ones(self.exercise_bank.get_num_valid_exercises())
         ex_index = -1
+        last_equipment = None
         for i, cardio_classes in enumerate(cardio_categories):
             norm_probs = dissimilarity_vec / np.sum(dissimilarity_vec)
             # if verbose:
@@ -141,17 +142,21 @@ class ExecutionEngine:
             #     print('\n\n\n')
 
             ex_index = np.nonzero(np.random.multinomial(1, norm_probs))[0][0]
+            new_equip = self.exercise_bank.get_exercise(ex_index).get_preferred_equipment(profile['equipment'])
             attempts = 0
-            while self.exercise_bank.get_exercise(ex_index).cardio not in cardio_classes:
+            while self.exercise_bank.get_exercise(ex_index).cardio not in cardio_classes or \
+                  (new_equip == last_equipment and new_equip != 'bodyweight'):
                 ex_index = np.nonzero(np.random.multinomial(1, norm_probs))[0][0]  # resample until you get a valid one
-                if attempts == 100:
+                new_equip = self.exercise_bank.get_exercise(ex_index).get_preferred_equipment(profile['equipment'])
+                if attempts == 10000:
                     break #no valid ones are likely
                 attempts += 1
             exercises.append(self.exercise_bank.get_exercise(ex_index))
             dissimilarity_vec *= np.exp(-self.exercise_bank._adjacency_mat[ex_index, :])
+            last_equipment = new_equip
         return exercises
 
-    def build_workout_sequence(self, duration, workout_type=-1):
+    def build_workout_sequence(self, duration, workout_type, profile):
         # determine workout format
         if workout_type == -1:
             workout_type = np.random.randint(3)
@@ -162,7 +167,7 @@ class ExecutionEngine:
         if workout_type == 0:
             #### 1 min strength 1 min cardio #####
             total_rounds = duration // 4
-            ex_list = self.sample_exercises(total_rounds * [[1, 2, 3, 4], [4, 5]])
+            ex_list = self.sample_exercises(total_rounds * [[1, 2, 3, 4], [4, 5]], profile)
             for i in range(total_rounds):
                 exercise_sequence.append((ex_list[2 * i + 0], '60s'))
                 exercise_sequence.append((ex_list[2 * i + 1], '60s'))
@@ -171,7 +176,7 @@ class ExecutionEngine:
         elif workout_type == 1:
             # 2x 1 min of 3 types of strength exercises, 1 min cardio
             total_rounds = duration // 8
-            ex_list = self.sample_exercises(total_rounds * [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [4, 5]])
+            ex_list = self.sample_exercises(total_rounds * [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [4, 5]], profile)
             for i in range(total_rounds):
                 exercise_sequence.append((ex_list[4 * i + 0], '60s'))
                 exercise_sequence.append((ex_list[4 * i + 1], '60s'))
@@ -184,27 +189,26 @@ class ExecutionEngine:
         elif workout_type == 2:
             # 20 seconds on, 10 seconds rest x 8 for one strength exercise, 1 min crdio'
             total_rounds = duration // 5
-            ex_list = self.sample_exercises([[1, 2, 3, 4], [4, 5]] * total_rounds)
+            ex_list = self.sample_exercises([[1, 2, 3, 4], [4, 5]] * total_rounds, profile)
             for i in range(total_rounds):
                 for j in range(8):
                     exercise_sequence.append((ex_list[2 * i], '20s'))
                     exercise_sequence.append((self.make_exercise('Rest'), '10s'))
                 exercise_sequence.append((ex_list[2 * i + 1], '60s'))
         elif workout_type == 3:
-            total_rounds = int(np.floor(duration / 3))
+            total_rounds = int(np.floor(duration / 4))
             #TODO: account for limited equipment
-            ex_list = self.sample_exercises([[1, 2, 3, 4, 5]] * total_rounds * 4)
+            ex_list = self.sample_exercises([[1, 2, 3, 4, 5]] * total_rounds * 2, profile)
             for i in range(total_rounds):
-                ex0 = ex_list[i]
-                ex1 = ex_list[i + 1]
-                ex2 = ex_list[i + 2]
-                ex3 = ex_list[i + 3]
+                ex0 = ex_list[2*i]
+                ex1 = ex_list[2*i + 1]
                 exercise_sequence.append(((ex0, ex1), '40s'))
                 exercise_sequence.append(((ex1, ex0), '40s'))
                 exercise_sequence.append(((self.make_exercise('Rest'), self.make_exercise('Rest')), '20s'))
-                exercise_sequence.append(((ex2, ex3), '40s'))
-                exercise_sequence.append(((ex3, ex2), '40s'))
+                exercise_sequence.append(((ex0, ex1), '40s'))
+                exercise_sequence.append(((ex1, ex0), '40s'))
                 exercise_sequence.append(((self.make_exercise('Rest'), self.make_exercise('Rest')), '20s'))
+
 
 
 

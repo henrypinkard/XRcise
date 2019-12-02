@@ -3,8 +3,10 @@ Pushups,"bodyweight,trx",,3,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0
 Tricep dips,trx,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
 Overhead tricep press,"weights, trx",,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
 T-Y-I fly,trx,,2,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
+Rear delt fly,trx,,4,0,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0
 Row and overhead press,"weights, kettlebell",,2,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0
 Bent over row,"weights, kettlebell",,1,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0
+Row,trx,,1,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0
 pullups,pullupbar,,1,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0
 chinups,pullupbar,,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
 chillups,pullupbar,,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0
@@ -33,16 +35,20 @@ Flutter kick,bodyweight,,2,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0
 Side swings,kettlebell,,3,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0
 Hanging leg raise,pullupbar,,2,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,0
 Squats,"bodyweight, weights",,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+Front squats,"kettlebell, weights",,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
 Squats with overhead press,weights,,2,0,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0
 Squat pulses,bodyweight,,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
 Wall sit,bodyweight,,3,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0
 Reverse lunge,"bodyweight, weights, trx",paired ,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
 Curtsy lunge,"bodyweight, weights,trx",paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
 One leg squat,trx,paired,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0
-Lunge pulses,"bodyweight, weights, trx",paired,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+Pallof press,trx,paired,3,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,0
+Lunge pulses,"bodyweight, weights, kettlebell, trx",paired,3,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
 One leg bridge lifts,"bodyweight, weights",paired,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
 Hamstring curls,trx,,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
+Hamstring runner,trx,,2,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0
 Reverse lunge with bicep curl,weights,paired,1,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0
+Bicep curl,"weight, kettlebell",paired,3,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 One leg RDL,"bodyweight, weights",paired,1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0
 Side lunge,"trx, towel",paired,2,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0
 swings,kettlebell,,4,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0

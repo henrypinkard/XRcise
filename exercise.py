@@ -17,7 +17,16 @@ class Exercise:
          self.equipment = equipment
          self.base_name = base_name
 
-    def get_name(self, available_equipment):
+    def get_preferred_equipment(self, available_equipment):
+        # do the version of the exercise with trhe equipment thats highest on hierarchy
+        hierarchy = ['trx', 'weights', 'kettlebell', 'pullupbar', 'band', 'towel', 'bodyweight']
+        hierarchy = [e for e in hierarchy if e in available_equipment] + ['bodyweight']
+        for equip in hierarchy:
+            if equip in self.equipment:
+                return equip
+        raise Exception('Mismatch with avaialable equipment')
+
+    def get_name(self, available_equipment, ignore_equipment=None):
         #do the version of the exercise with trhe equipment thats highest on hierarchy
         hierarchy = ['trx', 'weights', 'kettlebell', 'pullupbar', 'band', 'towel', 'bodyweight']
         hierarchy = [e for e in hierarchy if e in available_equipment] + ['bodyweight']

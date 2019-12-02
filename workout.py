@@ -46,7 +46,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--workout_type', type=int, default=-1)
+parser.add_argument('--workout_type', type=int, default=3)
 args = parser.parse_args()
 
 
