@@ -5,14 +5,19 @@ import os
 def base_dir():
     return os.path.dirname(os.path.realpath(__file__)) + os.sep
 
+class Event:
+
+    def __init__(self, exercise, duration):
+        self.exercise = exercise
+        self.duration = duration
+
 class Exercise:
 
     POSSIBLE_EQUIPMENT = {'TRX': 'trx', 'Weights': 'weights', 'Kettlebells': 'kettlebell', 'Pullup bar': 'pullupbar',
                           'Resistance bands': 'band', 'towel + smooth floor': 'towel'}
 
-    def __init__(self, base_name, equipment=['bodyweight'], paired='', cardio=0):
+    def __init__(self, base_name, equipment=['bodyweight'], paired=''):
          self.paired = paired
-         self.cardio = cardio
          self.count = 0
          self.equipment = equipment
          self.base_name = base_name
@@ -49,8 +54,7 @@ class ExerciseBank:
                     name = row[0]
                     equipment_needed = [s.strip().lower() for s in row[1].split(',')]
                     paired = row[2]
-                    cardio_score = int(row[3])
-                    muscle_groups_binary = np.array([float(f) for f in row[5:]])
+                    muscle_groups_binary = np.array([float(f) for f in row[4:]])
                     exercise_possible = False
                     for e in ['bodyweight'] + available_equipment:
                         if e in equipment_needed:
@@ -60,7 +64,7 @@ class ExerciseBank:
                             mat = np.reshape(muscle_groups_binary, [-1, 1])
                         else:
                             mat = np.concatenate([mat, np.reshape(muscle_groups_binary, [-1, 1])], axis=1)
-                        self._all_exercises.append(Exercise(name, paired=paired, cardio=cardio_score, equipment=equipment_needed))
+                        self._all_exercises.append(Exercise(name, paired=paired, equipment=equipment_needed))
 
         self._adjacency_mat = np.zeros((mat.shape[1], mat.shape[1]))
         normed_mat = mat / np.linalg.norm(mat, axis=0)

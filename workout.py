@@ -45,13 +45,13 @@ import argparse
 # sequence = prompt_for_loaded_workout()
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--workout_type', type=int, default=3)
-args = parser.parse_args()
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--workout_type', type=int, default=3)
+# args = parser.parse_args()
 
 
 
 profile, exercise_bank = get_profile()
 duration = int(input('Enter workout duration (min):'))
-ExecutionEngine(exercise_bank, profile, duration, args.workout_type)
+ExecutionEngine(exercise_bank, profile, duration)
 

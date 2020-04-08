@@ -7,7 +7,7 @@ import sys
 import select
 import pickle
 import matplotlib.pyplot as plt
-from exercise import Exercise, ExerciseBank
+from classes import Exercise, ExerciseBank
 
 POSSIBLE_EQUIPMENT = {'TRX': 'trx', 'Weights':'weights', 'Kettlebells':'kettlebell', 'Pullup bar':'pullupbar',
                       'Resistance bands':'band', 'towel + smooth floor':'towel'}
@@ -70,23 +70,33 @@ def get_profile():
         profile = {}
         # check what equipment id available
         equipment = []
+        print('============================')
+        print('====Avaliable Equipment=====')
+        print('============================')
         for e in POSSIBLE_EQUIPMENT.keys():
             if input('Do you have {} (y/n)?'.format(e)) == 'y':
                 equipment.append(POSSIBLE_EQUIPMENT[e])
         profile['equipment'] = equipment
-        #Do you want to warm up
-        warmup = input('Do you want to warm up (y/n)?') == 'y'
+        if len(equipment) != 0:
+            num_humans = input('===============================\n'
+                           'How many humans are participating?')
+            profile['num_humans'] = int(num_humans)
+
+        warmup = input('===============================\nDo you want to warm up (y/n)?') == 'y'
         profile['warmup'] = warmup
         # load exercises given equipment available and their distance similarity matrix
         exercise_bank = ExerciseBank(profile['equipment'])
         #check for exercise inclusion list
-        include_list_prompt = 'Select exercise include list: \n0) New include list\n1) All exercises\n'
+        include_list_prompt = '===================================================\n' \
+                              '=========Select exercise include list==============\n' \
+                              '===================================================\n' \
+                              '0) Create a new list of exercises to include\n1) Use all exercises\n'
         for i, include_list_name in enumerate(include_lists.keys()):
             include_list_prompt += '{}) {}\n'.format(2 + i, include_list_name)
         selection = input(include_list_prompt + '\n')
         if selection == '1':
             # nothing to filter because using all
-            return exercise_bank
+            return profile, exercise_bank
         elif selection == '0':
             selected_include_list_name, include_list = launch_include_list_editor(exercise_bank._all_exercises)
             include_lists[selected_include_list_name] = include_list
