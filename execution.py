@@ -168,8 +168,9 @@ class ExecutionEngine:
             duration -= 2
             exercise_sequence.append(Event(self.make_exercise('Warmup'), 120))
 
-        total_rounds = int(np.floor(duration / 4))
-        exercises_list = self.sample_exercises(total_rounds, profile)
+        total_rounds = int(np.floor(duration * 60 / 200))
+        total_exercises = total_rounds * 2
+        exercises_list = self.sample_exercises(total_exercises, profile)
 
         def divide_chunks(l, n):
             for i in range(0, len(l), n):
@@ -184,15 +185,13 @@ class ExecutionEngine:
             if num_humans == 1:
                 for iter in range(2):
                     exercise_sequence.append(Event(chunk[0], 40))
-                    exercise_sequence.append(Event(self.make_exercise('Rest'), 10))
                     exercise_sequence.append(Event(chunk[1], 40))
-                    exercise_sequence.append(Event(self.make_exercise('Rest'), 10))
+                    exercise_sequence.append(Event(self.make_exercise('Rest'), 20))
             else:
                 for iter in range(2):
                     exercise_sequence.append(Event((chunk[0], chunk[1]), 40))
-                    exercise_sequence.append(Event(self.make_exercise('Rest'), 10))
                     exercise_sequence.append(Event((chunk[1], chunk[0]), 40))
-                    exercise_sequence.append(Event(self.make_exercise('Rest'), 10))
+                    exercise_sequence.append(Event(self.make_exercise('Rest'), 20))
         exercise_sequence = exercise_sequence[:-1] #remove final rest
 
 
